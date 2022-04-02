@@ -1,0 +1,6 @@
+{
+
+"apt_dist_upgrade": true, 
+"apt_autoremove": true
+
+}
