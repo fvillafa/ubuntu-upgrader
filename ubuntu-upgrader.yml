@@ -1,0 +1,36 @@
+---
+- name: Update and upgrade an Ubuntu installation
+  become: yes
+  connection: local
+  hosts: all
+
+  pre_tasks:
+
+          - name: Update cache if it is older than one day
+            apt:
+              update_cache: yes
+              cache_valid_time: 93600
+
+  tasks:
+          
+          - name: apt-get upgrade
+            apt:
+              name: "*"
+              state: latest
+              only_upgrade: yes
+              install_recommends: no
+              dpkg_options: "force-confdef,force-confold"
+            register: apt_upgrade_status
+
+          - name: apt-get dist-upgrade
+            apt:
+              upgrade: dist
+            register: dist_upgrade_status
+            when: apt_dist_upgrade|d(false)|bool
+
+          - name: remove unused dependencies
+            apt:
+              autoremove: yes
+            register: apt_autoremove_status
+            when: apt_autoremove|d(false)|bool
+            
