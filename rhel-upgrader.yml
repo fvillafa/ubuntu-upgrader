@@ -1,0 +1,22 @@
+---
+- name: Upgrade RHEL based systems
+  gather_facts: no
+  hosts: all
+  become: yes
+  
+  vars:
+      exclude_packages: []
+  
+  tasks:
+  
+      - name: Upgrade all packages
+        dnf:
+            name: "*"
+            state: latest
+            exclude: "{{ exclude_packages }}"
+            
+      - name: Reboot the host for kernel upgrade
+        reboot:
+            msg: "reboot initiated by Ansible"
+        when: host_reboot|d(false)|bool
+        
