@@ -34,3 +34,10 @@
             register: apt_autoremove_status
             when: apt_autoremove|d(false)|bool
             
+          - name: Reboot the host for kernel upgrade
+            reboot:
+              msg: "reboot initiated by Ansible"
+            when: host_reboot|d(false)|bool
+            
+            
+            
