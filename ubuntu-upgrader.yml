@@ -12,6 +12,12 @@
               cache_valid_time: 93600
 
   tasks:
+  
+          - name: Put packages on hold
+            dpkg_selections:
+                name: "{{ item }}"
+                selection: hold
+            loop: "{{ hold_packages }}"
           
           - name: apt-get upgrade
             apt:
@@ -28,7 +34,7 @@
             register: dist_upgrade_status
             when: apt_dist_upgrade|d(false)|bool
 
-          - name: remove unused dependencies
+          - name: Remove unused dependencies
             apt:
               autoremove: yes
             register: apt_autoremove_status
