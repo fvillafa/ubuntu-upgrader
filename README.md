@@ -10,4 +10,8 @@ ansible-playbook -i localhost, ubuntu-upgrader.yml -K -e "apt_dist_upgrade=true 
 
 But decided to experiment with JSON format.
 
+```
+ansible-playbook -i localhost, ubuntu-upgrader.yml --extra-vars "@variables.json"
+```
+
 Soon I'll convert this to a role and add support for rpm based systems too (As I think there are fewer options for those).
