@@ -1,0 +1,17 @@
+---
+- name: Upgrade Arch systems
+  gather_facts: no
+  hosts: all
+  become: yes
+
+  tasks:
+
+      - name: Upgrade all packages
+        community.general.pacman:
+            update_cache: true
+            upgrade: true
+  
+      - name: Reboot the host for kernel upgrade
+        reboot:
+            msg: "reboot initiated by Ansible"
+        when: host_reboot|d(false)|bool
